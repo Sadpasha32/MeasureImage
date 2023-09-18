@@ -46,6 +46,7 @@ public class Main implements MouseListener, ActionListener {
         JLabel image = new JLabel(new ImageIcon(scaled));
         fileButton.setActionCommand("file");
         JPanel topPanel = new JPanel();
+        frame.setIconImage(scaled);
         topPanel.add(label);
         topPanel.add(clear);
         topPanel.add(fileButton);
