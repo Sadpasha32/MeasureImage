@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main implements MouseListener, ActionListener {
+public class Main implements MouseListener, ActionListener{
 
     PropertyFrame propertyFrame = new PropertyFrame();
     JButton propertyButton = new JButton("Set property");
@@ -31,17 +31,20 @@ public class Main implements MouseListener, ActionListener {
 
     double widthKoef = 1;
     double heightKoef = 1;
-
     final JFileChooser fc = new JFileChooser();
     JButton fileButton = new JButton("File");
+    JButton plusSize = new JButton("+");
+    JButton minusSize = new JButton("-");
     JFrame frame;
+
+    Image scaled;
 
     JPanel panel1;
 
     public Main() throws IOException {
         frame = new MainFrame();
         BufferedImage bufferedImage = ImageIO.read(new File("Picture.png"));
-        Image scaled = bufferedImage.getScaledInstance(bufferedImage.getWidth(),bufferedImage.getHeight(),Image.SCALE_SMOOTH);
+        scaled = bufferedImage.getScaledInstance(bufferedImage.getWidth(),bufferedImage.getHeight(),Image.SCALE_SMOOTH);
         frame.setSize(scaled.getWidth(null) + 100, scaled.getHeight(null) + 100);
         JLabel image = new JLabel(new ImageIcon(scaled));
         fileButton.setActionCommand("file");
@@ -51,6 +54,8 @@ public class Main implements MouseListener, ActionListener {
         topPanel.add(clear);
         topPanel.add(fileButton);
         topPanel.add(propertyButton);
+        topPanel.add(plusSize);
+        topPanel.add(minusSize);
         panel1 = new JPanel();
         panel1.add(image);
         frame.add(new JMenuBar());
@@ -58,12 +63,13 @@ public class Main implements MouseListener, ActionListener {
         frame.getContentPane().add(panel1,BorderLayout.CENTER);
         frame.getContentPane().add(topPanel,BorderLayout.NORTH);
 
-
         propertyFrame.submit.addActionListener(this);
         fileButton.addActionListener(this);
         clear.addActionListener(this);
         propertyButton.setActionCommand("property");
         propertyButton.addActionListener(this);
+        plusSize.addActionListener(this);
+        minusSize.addActionListener(this);
 
         frame.addMouseListener(this);
         frame.setVisible(true);
@@ -139,12 +145,24 @@ public class Main implements MouseListener, ActionListener {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                Image scaled = bufferedImage.getScaledInstance(bufferedImage.getWidth(),bufferedImage.getHeight(),Image.SCALE_SMOOTH);
+                scaled = bufferedImage.getScaledInstance(bufferedImage.getWidth(),bufferedImage.getHeight(),Image.SCALE_SMOOTH);
                 frame.setSize(scaled.getWidth(null) + 100, scaled.getHeight(null) + 100);
                 JLabel image = new JLabel(new ImageIcon(scaled));
                 panel1.remove(0);
                 panel1.add(image);
             }
+        } else if(e.getSource() == plusSize) {
+            Image image = scaled.getScaledInstance( (int) (scaled.getWidth(null)*1.5),(int) (scaled.getHeight(null)*1.5),Image.SCALE_SMOOTH);
+            scaled = image;
+            panel1.remove(0);
+            panel1.add(new JLabel(new ImageIcon(image)));
+            frame.setSize(image.getWidth(null) + 100, image.getHeight(null) + 100);
+        }  else if(e.getSource() == minusSize) {
+            Image image = scaled.getScaledInstance( (int) (scaled.getWidth(null)*0.5),(int) (scaled.getHeight(null)*0.5),Image.SCALE_SMOOTH);
+            scaled = image;
+            panel1.remove(0);
+            panel1.add(new JLabel(new ImageIcon(image)));
+            frame.setSize(image.getWidth(null) + 100, image.getHeight(null) + 100);
         }
     }
 }
