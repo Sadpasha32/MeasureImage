@@ -157,11 +157,15 @@ public class Main implements MouseListener, ActionListener{
             panel1.remove(0);
             panel1.add(new JLabel(new ImageIcon(image)));
             frame.setSize(image.getWidth(null) + 100, image.getHeight(null) + 100);
+            heightKoef *= 1.5;
+            widthKoef *= 1.5;
         }  else if(e.getSource() == minusSize) {
             Image image = scaled.getScaledInstance( (int) (scaled.getWidth(null)*0.5),(int) (scaled.getHeight(null)*0.5),Image.SCALE_SMOOTH);
             scaled = image;
             panel1.remove(0);
             panel1.add(new JLabel(new ImageIcon(image)));
+            heightKoef *= 0.5;
+            widthKoef *= 0.5;
             frame.setSize(image.getWidth(null) + 100, image.getHeight(null) + 100);
         }
     }
